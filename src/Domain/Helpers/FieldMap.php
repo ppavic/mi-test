@@ -2,7 +2,7 @@
 
 namespace App\Domain\Helpers;
 
-trait FieldMap
+class FieldMap
 {
     private array $fieldMap;
 

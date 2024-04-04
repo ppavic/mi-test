@@ -107,11 +107,14 @@ class Database
         } catch (PDOException $e) {
             // rollback because of error
             $this->pdo->rollBack();
+            echo "Error executing insertRow." .  $e->getMessage();
         }
 
         // user rollback
         if ($rollback) {
             $this->pdo->rollBack();
+        }else{
+            $this->pdo->commit();
         }
 
     }
@@ -157,6 +160,8 @@ class Database
         // user rollback
         if ($rollback) {
             $this->pdo->rollBack();
+        }else{
+            $this->pdo->commit();
         }
 
     }

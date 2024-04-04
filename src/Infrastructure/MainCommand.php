@@ -31,13 +31,13 @@ class MainCommand extends Command
 
     private array $criteria = [];
     private array $result = [];
-    private array $criteriaList = [
+    private array $criteriaList = [ 
         "city",
         'age_min',
         'age_max',
         'children',
         'pets',
-    ];
+      ];
 
     public function __construct()
     {

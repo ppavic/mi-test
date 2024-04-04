@@ -25,11 +25,11 @@ class Seeder extends Database
     public function __construct()
     {
 
+        //field Mapper
+        $this->map = new FieldMap();
+
         // initialize filter logic
         $this->InitializeLogic();
-
-        //initialize FiledMap
-        $this->map = new FieldMap();
 
         //initialize fields in table that can be filled
         $this->fillable = [
@@ -56,7 +56,7 @@ class Seeder extends Database
      * @param boolean $rollback
      * @return void
      */
-    public function seed(array $criteria, string $option = "all", bool $rollback = false): void
+    public function seed(array $criteria, string $option = "all", string $tableName, bool $rollback = false): void
     {
 
         $fillData = [];
@@ -94,7 +94,7 @@ class Seeder extends Database
                     }
                 }
 
-                $this->insertRow('data', $fillData);
+                $this->insertRow($tableName, $fillData, $rollback);
 
             }
 
@@ -116,7 +116,7 @@ class Seeder extends Database
                     }
                 }
 
-                $this->insertRow('data', $fillData);
+                $this->insertRow($tableName, $fillData, $rollback);
 
             }
 
