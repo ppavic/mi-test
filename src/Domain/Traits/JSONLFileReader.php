@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Domain\Helpers;
+namespace App\Domain\Traits;
 
 use SplFileObject;
 
 trait JSONLFileReader
 {
     /**
-     * Function that reads prvide JSONL file.
+     * Function that reads JSONL file.
      *
      * Function reads file and returns array of objects (not assocciative array).
-     * 
+     *
      * @var string $filename path to .jsonl.
      * @return type array result is list of objects.
      **/
-    private function readJSONLFile(string $filename): array
+    public function readJSONLFile(string $filename): array
     {
 
         $result = [];
@@ -36,7 +36,6 @@ trait JSONLFileReader
         $file = null;
 
         return $result;
-
     }
 
 }

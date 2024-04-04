@@ -2,7 +2,8 @@
 
 namespace App\Infrastructure;
 
-use App\Domain\Helpers\JSONLFileReader;
+use App\Domain\Traits\Filter;
+use App\Domain\Traits\JSONLFileReader;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -18,13 +19,13 @@ use Symfony\Component\Console\Style\SymfonyStyle;
             <type> "any" will return result while satissfying at least one of criteria.
             Running command without any options, returns all results regardless of <type>.
             Example: php bin/app filter all --pets=3:eq.
-            Filtering logic: gt -> greather than, lt->les than, eq -> equal....'
-    ,
+            Filtering logic: gt -> greather than, lt->les than, eq -> equal....'    ,
 )]
 class MainCommand extends Command
 {
 
     use JSONLFileReader;
+    use Filter;
 
     private const FILE_NAME = 'var/input.jsonl';
 
@@ -40,6 +41,8 @@ class MainCommand extends Command
 
     public function __construct()
     {
+
+        $this->InitializeLogic();
         parent::__construct();
     }
 
@@ -75,7 +78,10 @@ class MainCommand extends Command
                 $this->setCustomOptions($input->getOptions());
 
                 // Read JSONL
-                $data = $this->readJSONLFile($this::FILE_NAME);
+                $allData = $this->readJSONLFile($this::FILE_NAME);
+
+                // Filter JSONL
+                $result = $this->filter($allData, $this->criteria);
 
                 break;
 
@@ -86,7 +92,10 @@ class MainCommand extends Command
                 $this->setCustomOptions($input->getOptions());
 
                 // Read JSONL
-                $data = $this->readJSONLFile($this::FILE_NAME);
+                $allData = $this->readJSONLFile($this::FILE_NAME);
+
+                // Filter JSONL
+                $result = $this->filter($allData, $this->criteria, false);
 
                 break;
 
