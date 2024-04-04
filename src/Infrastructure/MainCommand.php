@@ -83,6 +83,9 @@ class MainCommand extends Command
                 // Filter JSONL
                 $result = $this->filter($allData, $this->criteria);
 
+                // Print Results to CLI
+                $this->printResults($result, $output);
+
                 break;
 
             case 'any':
@@ -97,18 +100,13 @@ class MainCommand extends Command
                 // Filter JSONL
                 $result = $this->filter($allData, $this->criteria, false);
 
+                // Print Results to CLI
+                $this->printResults($result, $output);
+
                 break;
 
             default:
-                $io->info('Filter type: all (default). All conditions are met.');
-
-                # get all options and create criteria list
-                $this->setCustomOptions($input->getOptions());
-
-                // Read JSONL
-                $data = $this->readJSONLFile($this::FILE_NAME);
-
-                break;
+               break;
         }
 
         return Command::SUCCESS;
@@ -125,6 +123,27 @@ class MainCommand extends Command
 
                 // for missing inssert null
                 $this->criteria[$key] = ['value' => isset($parts[0]) ? $parts[0] : null, 'logic' => isset($parts[1]) ? $parts[1] : null];
+            }
+        }
+    }
+
+    /**
+     * Prints filtered data to CLI
+     * @param mixed $result Results that will be printed
+     * @return void
+     */
+    private function printResults(mixed $result, OutputInterface $output)
+    {
+        foreach ($result as $key => $value) {
+            
+            if (is_object($value)) {
+                // recursion to get subobject values
+                $this->printResults($value, $output);
+
+            } else {
+                // TODO: Formatting
+                $output->writeln(sprintf('%s: %s ', $key, $value));
+
             }
         }
     }
