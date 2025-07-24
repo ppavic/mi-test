@@ -1,5 +1,4 @@
 # mi-test
 
-## Command with symfony
-
-### TODO:
+## Command with symfony.
+### conditional json records processing
